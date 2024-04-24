@@ -25,4 +25,6 @@ while databuf:
     reccounter +=1
 
 print('Copied', reccounter, 'records')
+fi.close()
+fo.close()
 

@@ -25,8 +25,6 @@ while databuf:
     reccounter +=1
 
 print('Copied', reccounter, 'records')
-fi.close()
-fo.close()
 
 #myconfig = configparser.ConfigParser()
 #current_config = myconfig.read('iebgener.ini')
