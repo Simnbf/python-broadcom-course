@@ -1,58 +1,66 @@
 import random
 
-def initGame():
-    print('Guessing game starting!')
-    print('Generating random number between 0 and 100...')
-    hiddenNumber = random.randrange(0,10)
-    print('Provide your guess, or use the below commands:')
-    print("      'stop' - end the game")
-    print("      'list' - display current scoreboard")
-    attemptCounter = 0
-    return hiddenNumber
+def genNumber(a):
+    return random.randrange(0,int(a))
 
-def saveScore(rn, g):
-    scoreGuess.append(g)
-    scoreRN.append(rn)
-
-def displayScore():
+def displayScore(a,b,c):
     print('Score Board:')
-    print('Random Number        # Guesses')
-    for x in range(len(scoreRN)):
-        print(scoreRN[x], '                  ', scoreGuess[x])
+    print('Game Size       Random Number        # Guesses')
+    for x in range(len(a)):
+        print(a[x], '            ',b[x], '                  ', c[x])
+
 
 scoreGuess = []
 scoreRN = []
+scoreSize = []
 attemptCounter = 0
-hiddenNumber = initGame()
 
-while True:    
-    guess  = input()
-    match guess.lower():
-        case 'list': 
-            displayScore()
-        case 'stop': 
-            print('Guessing game ending...')
-            break
-        case _:
-            if guess.isnumeric():
-                if int(guess) > hiddenNumber:
-                    attemptCounter+=1                                
-                    print('Your guess is  higher!')
-                if int(guess) < hiddenNumber:
-                    attemptCounter+=1                    
-                    print('Your guess is lower!')
-                if int(guess) == hiddenNumber:
-                    attemptCounter+=1                                
-                    print('Bingo! Hidden number is', hiddenNumber)
-                    print('It took you', attemptCounter, 'guesses!')
-                    saveScore(hiddenNumber, attemptCounter)
-                    print('Would you like to play again?')
-                    answer = input()
-                    if answer.lower() == 'yes':
-                        attemptCounter = 0
-                        hiddenNumber = initGame()
-                    else: 
-                        displayScore()
-                        print('Game over!')
-                        break
-            else: print('Please provide a number or command')
+while True:
+    print('Guessing game starting!')
+    print('Enter game size')
+    highNum = input()
+    if highNum.isnumeric():
+        print('Generating random number between 0 and', int(highNum), '...')
+        hiddenNumber = genNumber(highNum)
+        print('Provide your guess, or use the below commands:')
+        print("      'stop' - end the game")
+        print("      'list' - display current scoreboard")
+    else:
+        print("Invalid number - game ending!")
+        break
+    
+
+    while True:    
+        guess  = input()
+        match guess.lower():
+            case 'list': 
+                displayScore(scoreSize, scoreRN, scoreGuess)
+            case 'stop': 
+                displayScore(scoreSize, scoreRN, scoreGuess)
+                print('Guessing game ending...')
+                break
+            case _:
+                if guess.isnumeric():
+                    if int(guess) > hiddenNumber:
+                        attemptCounter+=1                                
+                        print('Your guess is higher!')
+                    if int(guess) < hiddenNumber:
+                        attemptCounter+=1                    
+                        print('Your guess is lower!')
+                    if int(guess) == hiddenNumber:
+                        attemptCounter+=1                                
+                        print('Bingo! Hidden number is', hiddenNumber)
+                        print('It took you', attemptCounter, 'guesses!')   
+                        scoreSize.append(highNum)                 
+                        scoreGuess.append(attemptCounter)
+                        scoreRN.append(hiddenNumber)  # ...
+                        print('Would you like to play again?')
+                        answer = input()
+                        if answer.lower() == 'yes':
+                            attemptCounter = 0
+                            break
+                        else: 
+                            displayScore(scoreSize, scoreRN, scoreGuess)
+                            print('Game over!')
+                            exit()
+                else: print('Please provide a number or command')
