@@ -1,0 +1,83 @@
+---------- objects ----------
+
+type() - returns type of object
+id() -  returns identity
+        in C python, the identity is the address in memory
+is - compares identities of 2 objects
+
+2 objects (strings for ex) that have same value share the same id. Python does it this way
+whereas other languages create 2 separate fields, 2 addresses for same value etc
+
+>>> c = '123'
+>>> b = '123'
+>>> id(c)
+2309994403264
+>>> id(b)
+2309994403264
+>>> c is b
+True
+>>> c = '124'
+>>> id(c)
+2309994612752
+>>> id(b)
+2309994403264
+>>>
+
+when one of the objects value changes, it gets a new id.
+
+---------- args ----------
+
+import getpass >> used to prompt for input that is hidden on terminal:
+psw = getpass.getpass("Enter password:")
+
+PSL module argparse used to parse arguments from cli:
+
+import argparse
+parser = argparse.ArgumentParser(
+description='Test command line parameters')
+parser.add_argument('--file',
+help='file name to work with', required=True)
+args = parser.parse_args()
+print(args.file)
+
+
+---------- files ----------
+
+pathlib.Path
+from pathlib import Path    << only loads the 1 object into memory, cheaper
+
+print(Path(args.file).exists()) //True/False
+
+f = open('filename.txt','rt') #read only file in textmode
+
+f1 = f.readline()               # read first record
+while f1:                       # while data to read:
+    print(f1)                   # print record
+    f1=f.readline()             # read next
+f.close()
+
+for line in f:                  # same thing less code..
+    print(line)
+f.close()
+
+
+---------- config parser ----------
+
+import configparser
+myconfig = configparser.ConfigParser()
+current_config = myconfig.read('conf.ini')
+myconfig.sections()                     # list of []
+myconfig.options(section)               # list of ..=
+myconfig['Section1']
+myconfig['Section1']['value1']
+
+conf.ini:
+; test configuration (comment)
+# another comment
+;
+[Section1]
+value1=1
+value2=2
+[GEOG]
+; what's the country
+country=CZ
